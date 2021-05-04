@@ -1,4 +1,3 @@
-using BookShelf.Interfaces;
 using BookShelf.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,8 +27,6 @@ namespace BookShelf
         {
             services.AddDbContext<BookContext>(options =>
                 options.UseInMemoryDatabase(databaseName:"Books"));
-            services.AddTransient<IBookRepository,BookList>();
-            services.AddTransient<IVisitorRepository, Visitors>();
             services.AddControllersWithViews();
         }
 

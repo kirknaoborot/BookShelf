@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BookShelf.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookShelf.Models
 {
-    public class BookList : IBookRepository
+    public class BookList
     {
         private readonly BookContext _bookContext;
         /// <summary>

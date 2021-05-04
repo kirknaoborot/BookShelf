@@ -42,7 +42,8 @@ namespace BookShelf.Controllers
 
         public IActionResult DeleteBook(Guid Id)
         {
-            _bookList.DeleteBook(_bookList.GetBook(Id));
+            var book = _bookList.GetBook(Id);
+            _bookList.DeleteBook(book);
             return RedirectToAction("Index");
         }
 

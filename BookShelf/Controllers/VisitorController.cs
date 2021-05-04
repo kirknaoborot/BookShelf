@@ -47,7 +47,8 @@ namespace BookShelf.Controllers
 
         public IActionResult DeleteReader(Guid Id)
         {
-            _visitors.DeleteReader(_visitors.GetReader(Id));
+            var reader = _visitors.GetReader(Id);
+            _visitors.DeleteReader(reader);
             return RedirectToAction("Index");
         }
 

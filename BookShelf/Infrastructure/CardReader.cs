@@ -16,7 +16,9 @@ namespace BookShelf.Models
         /// </summary>       
         public Guid ReaderId { get; set; }
         public Reader Reader { get; set; }
-
+        /// <summary>
+        /// Список книг
+        /// </summary>
         public List<Book> Books { get; set; }
 
 

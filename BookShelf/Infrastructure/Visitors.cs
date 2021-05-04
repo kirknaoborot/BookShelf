@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BookShelf.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookShelf.Models
 {
-    public class Visitors : IVisitorRepository
+    public class Visitors
     {
         private readonly BookContext bookContext;
         public List<Reader> Readers { get; set; }

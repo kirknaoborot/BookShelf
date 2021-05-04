@@ -1,34 +1,34 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BookShelf.Models;
 
-namespace BookShelf
+namespace BookShelf.Models
 {
-    public class DataGenerator
+    public class BookContext :DbContext
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public BookContext(DbContextOptions<BookContext> options) :base(options)
         {
-            using (var context = new BookContext(
-                serviceProvider.GetRequiredService<DbContextOptions<Models.BookContext>>()))
-            {
-                if (context.Books.Any())
-                {
-                    return;
-                }
+            Database.EnsureCreated();
+        }
 
-                context.Books.AddRange(
-                    new Book
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Война и Мир",
-                        Author = "Л.Н Толстой",
-                        Given = false,
-                        DatePublished = DateTime.ParseExact("01/01/1865", "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture)
-            },
+       public DbSet<Book> Books { get; set; }
+       public DbSet<Reader> Readers { get; set; }
+
+       public DbSet<History> Histories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Book>().HasData(
+                   new Book
+                   {
+                       Id = Guid.NewGuid(),
+                       Name = "Война и Мир",
+                       Author = "Л.Н Толстой",
+                       Given = false,
+                       DatePublished = DateTime.ParseExact("01/01/1865", "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture)
+                   },
                    new Book
                    {
                        Id = Guid.NewGuid(),
@@ -54,15 +54,15 @@ namespace BookShelf
                        Given = false,
                        DatePublished = DateTime.ParseExact("01/01/1937", "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture)
                    });
-                context.Readers.AddRange(
-                   new Reader
-                   {
-                       Id = Guid.NewGuid(),
-                       FirstName = "Иван",
-                       LastName = "Иванов",
-                       MiddleName = "Иванович",
-                       Books = new List<Book>()
-                   },
+            modelBuilder.Entity<Reader>().HasData(
+                 new Reader
+                 {
+                     Id = Guid.NewGuid(),
+                     FirstName = "Иван",
+                     LastName = "Иванов",
+                     MiddleName = "Иванович",
+                     Books = new List<Book>()
+                 },
                    new Reader
                    {
                        Id = Guid.NewGuid(),
@@ -95,10 +95,8 @@ namespace BookShelf
                        MiddleName = "Михайлович",
                        Books = new List<Book>()
                    });
-
-
-                context.SaveChanges();
-            }
+              
         }
+
     }
 }
