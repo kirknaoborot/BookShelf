@@ -13,18 +13,18 @@ namespace BookShelf.Controllers
     public class BookController : Controller
     {
         private readonly ILogger<BookController> _logger;
-        BookList _bookList;
+        BookContext _context;
 
         public BookController(ILogger<BookController> logger, BookContext bookContext)
-        {
-            _bookList = new BookList(bookContext);
+        {            
             _logger = logger;
+            _context = bookContext;
         }
 
         // GET: BookController
         public ActionResult Index()
         {
-            return View(_bookList.Books);
+            return View(_context.Books);
         }
 
         // GET: BookController/CreateBook
@@ -36,14 +36,16 @@ namespace BookShelf.Controllers
         [HttpPost]
         public IActionResult CreateBook(Book book)
         {
-            _bookList.AddBook(book);
+            _context.Books.Add(book);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
         public IActionResult DeleteBook(Guid Id)
         {
-            var book = _bookList.GetBook(Id);
-            _bookList.DeleteBook(book);
+            var book = _context.Books.First(x => x.Id == Id);
+            _context.Books.Remove(book);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 

@@ -24,7 +24,7 @@ namespace BookShelf.Controllers
         {
             CardReader cardReader = new CardReader()
             {
-                Reader = _context.Readers.Include(b => b.Books).FirstOrDefault(x => x.Id == Id),
+                Reader = _context.Readers.Include(b => b.Books).First(x => x.Id == Id),
                 Books = _context.Books.Where(x => x.Given == false).ToList()
             };
             return View(cardReader);
@@ -33,7 +33,7 @@ namespace BookShelf.Controllers
         public IActionResult ActionBook(Guid ReaderId, Guid BookId, bool ToTake)
         {
             var reader = _context.Readers.First(x => x.Id == ReaderId);
-            var book = _context.Books.FirstOrDefault(x => x.Id == BookId);
+            var book = _context.Books.First(x => x.Id == BookId);
             if (ToTake)
             {
                 book.Given = true;
@@ -50,7 +50,7 @@ namespace BookShelf.Controllers
             {
                 book.Given = false;
                 reader.Books.Remove(book);
-                var history = _context.Histories.Where(x => x.ReaderId == ReaderId && x.BookId == BookId && x.ReturnDate == null).FirstOrDefault();
+                var history = _context.Histories.Where(x => x.ReaderId == ReaderId && x.BookId == BookId && x.ReturnDate == null).First();
                 history.ReturnDate = DateTime.Now;
             }
             _context.SaveChanges();
@@ -60,7 +60,7 @@ namespace BookShelf.Controllers
         public IActionResult ReadersHistory(Guid Id)
         {
      
-            var reader = _context.Readers.FirstOrDefault(x => x.Id == Id);
+            var reader = _context.Readers.First(x => x.Id == Id);
             var history = _context.Histories.Where(x => x.ReaderId == Id);
             var books = _context.Books.Where(x =>history.Any(y=>y.BookId == x.Id));
 
@@ -77,7 +77,7 @@ namespace BookShelf.Controllers
         public IActionResult BooksHistory(Guid Id)
         {
 
-            var book = _context.Books.FirstOrDefault(x => x.Id == Id);
+            var book = _context.Books.First(x => x.Id == Id);
             var history = _context.Histories.Where(x => x.BookId == Id);
             var readers = _context.Readers.Where(x => history.Any(y => y.ReaderId == x.Id));
 
@@ -91,10 +91,5 @@ namespace BookShelf.Controllers
             return View(bookHistory);
         }
 
-        // GET: ServiceController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
     }
 }

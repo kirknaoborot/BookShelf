@@ -12,25 +12,20 @@ namespace BookShelf.Controllers
     public class VisitorController : Controller
     {
         private readonly ILogger<VisitorController> _logger;
-        Visitors _visitors;
+        BookContext _bookContext;
 
         public VisitorController(ILogger<VisitorController> logger, BookContext bookContext)
         {
             _logger = logger;
-            _visitors = new Visitors(bookContext);
+            _bookContext = bookContext;
         }
 
         // GET: VisitorController
         public ActionResult Index()
         {
-            return View(_visitors.Readers);
+            return View(_bookContext.Readers);
         }
 
-        // GET: VisitorController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
         // GET: VisitorController/Create
         public IActionResult CreateReader()
@@ -41,14 +36,16 @@ namespace BookShelf.Controllers
         [HttpPost]
         public IActionResult CreateReader(Reader reader)
         {
-            _visitors.AddReader(reader);
+            _bookContext.Readers.Add(reader);
+            _bookContext.SaveChanges();
             return RedirectToAction("Index");
         }
 
         public IActionResult DeleteReader(Guid Id)
         {
-            var reader = _visitors.GetReader(Id);
-            _visitors.DeleteReader(reader);
+            var reader = _bookContext.Readers.First(x=>x.Id==Id);
+            _bookContext.Readers.Remove(reader);
+            _bookContext.SaveChanges();
             return RedirectToAction("Index");
         }
 
