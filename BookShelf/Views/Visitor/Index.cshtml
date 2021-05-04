@@ -1,0 +1,46 @@
+﻿@model IEnumerable<BookShelf.Models.Reader>
+
+@{
+    ViewData["Title"] = "Список читателей";
+}
+
+<h1 class="h1">Список читателей</h1>
+
+<p class="p-0">
+    <a asp-action="CreateReader">Добавить читателя</a>
+</p>
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MiddleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MiddleName)
+            </td>
+            <td>
+                <a asp-controller="Service" asp-action="Index" asp-route-id="@item.Id">Карточка читателя</a> |
+                <a asp-controller="Service" asp-action="ReadersHistory" asp-route-id="@item.Id">История</a>  |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

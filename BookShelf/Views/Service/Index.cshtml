@@ -1,0 +1,65 @@
+﻿@model BookShelf.Models.CardReader
+
+@{
+    ViewData["Title"] = "CardReaderView";
+}
+
+<h3 class="h3">Карточка читателя</h3  >
+
+<div>
+    <hr />
+    <dl class="row">
+        <dd class = "col-sm-10">
+            <h4 class="h4">@Model.Reader.FirstName @Model.Reader.MiddleName @Model.Reader.LastName</h4>
+        </dd>
+    </dl>
+</div>
+
+<table class="table table-bordered text-center">
+    <caption class="figure-caption">Список книг на чтении</caption>
+    <tbody>
+        @foreach (var item in Model.Reader.Books)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DatePublished)
+                </td>
+                <td>                    
+                    <a asp-action="ActionBook" asp-all-route-data='new Dictionary<string,string> { { "ReaderId", Model.Reader.Id.ToString() }, { "BookId", item.Id.ToString() }, {"ToTake", false.ToString() }}'>Вернуть</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<table class="table table-bordered text-center">
+    <caption class="figure-caption">Доступные книги</caption>
+    <tbody>
+        @foreach (var item in Model.Books)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DatePublished)
+            </td>
+            <td>              
+                <a asp-action="ActionBook" asp-all-route-data='new Dictionary<string,string> { { "ReaderId", Model.Reader.Id.ToString() }, {"BookId", item.Id.ToString() }, {"ToTake", true.ToString() }}'>Взять</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-controller="Visitor" asp-action="Index">Назад к читателям</a>
+</div>

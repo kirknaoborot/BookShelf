@@ -1,0 +1,34 @@
+﻿@model BookShelf.ViewModel.ReaderHistory
+
+@{
+    ViewData["Title"] = "История читателя";
+}
+
+<h3 class="h3">История читателя</h3>
+
+<table class="table table-bordered text-center">
+    <caption class="figure-caption">История читателя : @Model.Reader.FirstName @Model.Reader.MiddleName @Model.Reader.LastName</caption>
+    <thead>
+        <tr>
+            <td>Название книги</td>
+            <td>Дата выдачи</td>
+            <td>Дата возврата</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Histories.First(x => x.BookId == item.Id).DateOfCapture)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Histories.First(x => x.BookId == item.Id).ReturnDate)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
