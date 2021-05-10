@@ -28,7 +28,7 @@
                     @Html.DisplayFor(modelItem => item.Author)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DatePublished)
+                    @item.DatePublished.ToString("yyyy-MM-dd")
                 </td>
                 <td>                    
                     <a asp-action="ActionBook" asp-all-route-data='new Dictionary<string,string> { { "ReaderId", Model.Reader.Id.ToString() }, { "BookId", item.Id.ToString() }, {"ToTake", false.ToString() }}'>Вернуть</a>
@@ -51,7 +51,7 @@
                 @Html.DisplayFor(modelItem => item.Author)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DatePublished)
+                @item.DatePublished.ToString("yyyy-MM-dd")
             </td>
             <td>              
                 <a asp-action="ActionBook" asp-all-route-data='new Dictionary<string,string> { { "ReaderId", Model.Reader.Id.ToString() }, {"BookId", item.Id.ToString() }, {"ToTake", true.ToString() }}'>Взять</a>
